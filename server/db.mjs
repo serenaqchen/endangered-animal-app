@@ -3,10 +3,12 @@ import pgp from "pg-promise";
 
 const db = initDb();
 
-export const getTasks = () => db.any("SELECT * FROM tasks");
+export const getSightings = () => db.any("SELECT sightings.common_name, sightings.scientific_name, sightings.sighting_date, sightings.sighting_time, individuals.nick_name FROM sightings LEFT JOIN individuals ON sightings.sighting_id = individuals.individual_id");
 
-export const addTask = (name) =>
-  db.one("INSERT INTO tasks(name) VALUES(${name}) RETURNING *", { name });
+// export const addSighting = (common_name) =>
+//   db.one("INSERT INTO sightings(common_name) VALUES(${name}) RETURNING *", {common_name});
+
+// db.one("INSERT INTO sightings(individual_id, common_name, scientific_name, sighting_date, sighting_time) VALUES(${name}, ${individual_id}, ${common_name}, ${scientific_name}, ${sighting_date}, ${sighting_time}) RETURNING *", { newSighting.individual_id, newSighting.common_name, newSighting.scientific_name, newSighting.sighting_date, newSighting.sighting_time});
 
 function initDb() {
   let connection;
