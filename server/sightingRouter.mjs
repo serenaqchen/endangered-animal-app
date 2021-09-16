@@ -9,10 +9,12 @@ sightingRouter.get("/", async (request, response) => {
   response.json(sightings);
 });
 
-// sightingRouter.use(express.json());
-// sightingRouter.post("/", async (request, response) => {
-//   const sighting = await db.addSighting(request.body.name);
-//   response.status(201).json(sighting);
-// });
+sightingRouter.use(express.json());
+//posting that data that frontend send to backend 
+sightingRouter.post("/", async (request, response) => {
+  const newSighting = await db.addSighting(request.body);
+  console.log(request.body)
+  response.status(201).json(newSighting);
+});
 
 export default sightingRouter;

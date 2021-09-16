@@ -7,16 +7,17 @@ import Sightings from "./Sightings";
 const App = () => (
   <main>
     <nav>
-      <Link to="/">Home</Link> | <Link to="dashboard">Dashboard</Link>
+      <Link to="/">Sightings</Link> |
+      <Link to="database">Endangered Species Database</Link>
     </nav>
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/" element={<ListOfSightings />} />
+      <Route path="/database" element={<Database />} />
     </Routes>
   </main>
 );
 
-const Home = () => (
+const ListOfSightings = () => (
   <>
     <h1>{process.env.REACT_APP_TITLE}</h1>
     <h2>{process.env.REACT_APP_SUBTITLE}</h2>
@@ -24,9 +25,9 @@ const Home = () => (
   </>
 );
 
-const Dashboard = () => (
+const Database = () => (
   <>
-    <h1>Dashboard</h1>
+    <h1>Endangered Species Database</h1>
   </>
 );
 

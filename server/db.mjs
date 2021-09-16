@@ -3,12 +3,11 @@ import pgp from "pg-promise";
 
 const db = initDb();
 
-export const getSightings = () => db.any("SELECT sightings.common_name, sightings.scientific_name, sightings.sighting_date, sightings.sighting_time, individuals.nick_name FROM sightings LEFT JOIN individuals ON sightings.sighting_id = individuals.individual_id");
+export const getSightings = () => db.any("SELECT individuals.common_name, individuals.scientific_name, sightings.sighting_date, sightings.sighting_time, individuals.nick_name FROM sightings LEFT JOIN individuals ON sightings.individual_id = individuals.individual_id");
 
-// export const addSighting = (common_name) =>
-//   db.one("INSERT INTO sightings(common_name) VALUES(${name}) RETURNING *", {common_name});
-
-// db.one("INSERT INTO sightings(individual_id, common_name, scientific_name, sighting_date, sighting_time) VALUES(${name}, ${individual_id}, ${common_name}, ${scientific_name}, ${sighting_date}, ${sighting_time}) RETURNING *", { newSighting.individual_id, newSighting.common_name, newSighting.scientific_name, newSighting.sighting_date, newSighting.sighting_time});
+//creating a fxn that is going to perform a query to add a row to the sightings database
+export const addSighting = (newSighting) =>
+  db.one("INSERT INTO sightings(individual_id, sighting_date, sighting_time) VALUES($1, $2, $3) RETURNING *", [newSighting["individual_id"], newSighting["sighting_date"], newSighting["sighting_time"]]);
 
 function initDb() {
   let connection;

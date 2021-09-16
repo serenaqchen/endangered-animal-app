@@ -61,8 +61,6 @@ ALTER SEQUENCE public.individuals_individual_id_seq OWNED BY public.individuals.
 CREATE TABLE public.sightings (
     sighting_id integer NOT NULL,
     individual_id integer NOT NULL,
-    common_name character varying(255),
-    scientific_name character varying(255),
     sighting_date date,
     sighting_time time without time zone,
     "timestamp" timestamp without time zone DEFAULT now()
@@ -162,8 +160,8 @@ COPY public.individuals (individual_id, species_id, nick_name, common_name, scie
 -- Data for Name: sightings; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.sightings (sighting_id, individual_id, common_name, scientific_name, sighting_date, sighting_time, "timestamp") FROM stdin;
-1	4	Black-footed Ferret	Mustela nigripes	2021-09-14	21:49:00	2021-09-15 17:12:47.752422
+COPY public.sightings (sighting_id, individual_id, sighting_date, sighting_time, "timestamp") FROM stdin;
+1	4	2021-09-14	21:49:00	2021-09-15 17:12:47.752422
 \.
 
 
@@ -189,7 +187,7 @@ SELECT pg_catalog.setval('public.individuals_individual_id_seq', 5, true);
 -- Name: sightings_sightings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.sightings_sightings_id_seq', 1, true);
+SELECT pg_catalog.setval('public.sightings_sightings_id_seq', 6, true);
 
 
 --
