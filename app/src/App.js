@@ -2,31 +2,43 @@ import * as React from "react";
 
 import { Routes, Route, Link } from "react-router-dom";
 
-import Tasks from "./Tasks";
+
+import Sightings from "./Sightings";
+import Species from "./Species";
 
 const App = () => (
   <main>
     <nav>
-      <Link to="/">Home</Link> | <Link to="dashboard">Dashboard</Link>
+      <Link to="/">Sightings</Link> |
+      <Link to="individuals">Individually Tracked Animals</Link> |
+      <Link to="species">Endangered Species Database</Link>
     </nav>
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/" element={<ListOfSightings />} />
+      <Route path="/individuals" element={<ListOfIndividuals />} />
+      <Route path="/species" element={<ListOfSpecies />} />
     </Routes>
   </main>
 );
 
-const Home = () => (
+const ListOfSightings = () => (
   <>
     <h1>{process.env.REACT_APP_TITLE}</h1>
     <h2>{process.env.REACT_APP_SUBTITLE}</h2>
-    <Tasks />
+    <Sightings />
   </>
 );
 
-const Dashboard = () => (
+const ListOfIndividuals = () => (
   <>
-    <h1>Dashboard</h1>
+    <h1>Individually Tracked Animals</h1>
+  </>
+);
+
+const ListOfSpecies = () => (
+  <>
+    <h1>Endangered Species Database</h1>
+    <Species />
   </>
 );
 
