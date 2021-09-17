@@ -7,7 +7,11 @@ const Sightings = () => {
   const [sightings, setSightings] = React.useState([]);
 
   const loadSightings = async () =>
-    setSightings(await apiClient.getSightings());
+    setSightings(
+      await apiClient.getSightings().then((data) => {
+        return apiClient.formatDateandTime(data);
+      }),
+    );
 
   const addSighting = (newSighting) => {
     apiClient.addSighting(newSighting).then(loadSightings);
@@ -34,7 +38,9 @@ const SightingList = ({ sightings }) => (
         <li key={index}>
           {sighting.nick_name} the {sighting.common_name} (
           {sighting.scientific_name}) <br />
-          Spoted on: {sighting.sighting_date} @ {sighting.sighting_time}
+          Spoted on: {sighting.sighting_date} @ {sighting.sighting_time} <br />
+          Loction: {sighting.location} <br />
+          Healthy: {sighting.healthy}
         </li>
       ))}
     </ul>
@@ -45,6 +51,8 @@ const SightingList = ({ sightings }) => (
 const AddSighting = ({ addSighting }) => {
   const initialState = {
     individual_id: "",
+    healthy: "",
+    location: "",
     sighting_date: "",
     sighting_time: "",
   };
@@ -53,6 +61,10 @@ const AddSighting = ({ addSighting }) => {
     switch (action.type) {
       case "editIndividual_id":
         return { ...state, individual_id: action.payload };
+      case "editHealthy":
+        return { ...state, healthy: action.payload };
+      case "editLocation":
+        return { ...state, location: action.payload };
       case "editSighting_date":
         return { ...state, sighting_date: action.payload };
       case "editSighting_time":
@@ -60,7 +72,9 @@ const AddSighting = ({ addSighting }) => {
       case "reset":
         return {
           ...state,
-          individual_id: 0,
+          individual_id: "",
+          healthy: "",
+          location: "",
           sighting_date: "",
           sighting_time: "",
         };
@@ -77,19 +91,22 @@ const AddSighting = ({ addSighting }) => {
     state.sighting_date !== "" &&
     state.sighting_time !== "";
 
-  const onSubmit = (e) => {
+  const handleAddSighting = (e) => {
     e.preventDefault();
     if (canAdd) {
       addSighting(state);
     }
+    dispatch({ type: "reset" });
   };
-  console.log(JSON.stringify(state));
+  // console.log(JSON.stringify(state));
 
   return (
-    <form onSubmit={onSubmit}>
-      <label>
-        Individual ID:
+    <div>
+      <h2>Report New Sightings</h2>
+      <form onSubmit={handleAddSighting}>
+        <label htmlFor="individual_id">Individual ID: </label>
         <input
+          id="individual_id"
           onChange={(e) =>
             dispatch({
               type: "editIndividual_id",
@@ -98,10 +115,39 @@ const AddSighting = ({ addSighting }) => {
           }
           value={state.individual_id}
         />
-      </label>
-      <label>
-        Sighting Date:
+        <br />
+        <br />
+        <label htmlFor="healthy">Healthy: </label>
+        <select
+          id="healthy"
+          value={state.healthy}
+          onChange={(e) =>
+            dispatch({ type: "editHealthy", payload: e.target.value })
+          }
+        >
+          <option value="">Please choose an option</option>
+          <option value="True">True</option>
+          <option value="False">False</option>
+        </select>
+        <br />
+        <br />
+        <label htmlFor="location">Location: </label>
         <input
+          id="location"
+          type="text"
+          onChange={(e) =>
+            dispatch({
+              type: "editLocation",
+              payload: e.target.value,
+            })
+          }
+          value={state.location}
+        />
+        <br />
+        <br />
+        <label htmlFor="sighting_date">Sighting Date: </label>
+        <input
+          id="sighting_date"
           type="date"
           onChange={(e) =>
             dispatch({
@@ -111,10 +157,11 @@ const AddSighting = ({ addSighting }) => {
           }
           value={state.sighting_date}
         />
-      </label>
-      <label>
-        Sighting Time:
+        <br />
+        <br />
+        <label htmlFor="sighting_time">Sighting Time:</label>
         <input
+          id="sighting_time"
           type="time"
           onChange={(e) =>
             dispatch({
@@ -124,9 +171,10 @@ const AddSighting = ({ addSighting }) => {
           }
           value={state.sighting_time}
         />
-      </label>
-      <button disabled={!canAdd}>Add</button>
-    </form>
+        <br /> <br />
+        <button disabled={!canAdd}>Add</button>
+      </form>
+    </div>
   );
 };
 

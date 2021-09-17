@@ -10,10 +10,9 @@ sightingRouter.get("/", async (request, response) => {
 });
 
 sightingRouter.use(express.json());
-//posting that data that frontend send to backend 
+//posting that data that frontend send to backend
 sightingRouter.post("/", async (request, response) => {
   const newSighting = await db.addSighting(request.body);
-  console.log(request.body)
   response.status(201).json(newSighting);
 });
 
