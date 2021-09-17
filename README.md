@@ -1,6 +1,6 @@
 # Endangered Species Sighting Application 
 
-This application serves as a database for scientists to keep track and record sightings of each individual animals for their research. 
+This application serves as a database for scientists to keep track and record sightings of each individual animal for their research. 
 It contains a database of endangered animals, each individual animal, and their sightiings(all stored in PostgreSQL database). The project has a very simple interface that fetches data from a single table in the database, and allows you to add rows to that table. 
 
 
